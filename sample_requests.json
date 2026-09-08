@@ -1,0 +1,28 @@
+[
+  {
+    "id": "REQ-001",
+    "client": "Atelier Nova",
+    "action": "Vérifier le formulaire",
+    "message": "Le formulaire ne semble plus envoyer les demandes.",
+    "priority": "high",
+    "deadline": "2026-09-08",
+    "people": ["Julie Martin"]
+  },
+  {
+    "id": "REQ-002",
+    "client": "atelier nova",
+    "action": "  VÉRIFIER LE FORMULAIRE ",
+    "message": "Merci de prévenir Karim lorsque le diagnostic est terminé.",
+    "priority": "medium",
+    "deadline": "2026-09-07",
+    "people": ["Karim Benali", "Julie Martin"]
+  },
+  {
+    "id": "REQ-003",
+    "client": "Maison Ardoise",
+    "action": "Préparer le compte rendu",
+    "message": "Préparer une synthèse de la réunion.",
+    "priority": "low",
+    "people": []
+  }
+]
