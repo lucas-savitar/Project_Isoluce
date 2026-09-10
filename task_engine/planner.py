@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Any, Iterable
 
 from .models import ClientRequest, Task
-from .parser import parse_request
 from .parser import parse_request, unique_preserve
 
 PRIORITY_RANK = {"low": 0, "medium": 1, "high": 2}
