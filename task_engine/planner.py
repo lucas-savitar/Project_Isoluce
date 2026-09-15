@@ -7,6 +7,7 @@ from .parser import parse_request, unique_preserve
 
 PRIORITY_RANK = {"low": 0, "medium": 1, "high": 2}
 
+
 def task_from_request(request: ClientRequest) -> Task:
     return Task(
         client=request.client,
@@ -21,17 +22,22 @@ def task_from_request(request: ClientRequest) -> Task:
 
 def _merge_two(existing: Task, incoming: Task) -> None:
     """Merge `incoming` into `existing`, in place."""
-    existing.source_ids.extend(incoming.source_ids)
+    existing.source_ids = unique_preserve(existing.source_ids + incoming.source_ids)
     existing.people = unique_preserve(existing.people + incoming.people)
-    existing.missing_information = unique_preserve(
-        existing.missing_information + incoming.missing_information
-    )
+
     if PRIORITY_RANK[incoming.priority] > PRIORITY_RANK[existing.priority]:
         existing.priority = incoming.priority
+
     if existing.deadline is None:
         existing.deadline = incoming.deadline
     elif incoming.deadline is not None and incoming.deadline < existing.deadline:
         existing.deadline = incoming.deadline
+
+    missing = unique_preserve(existing.missing_information + incoming.missing_information)
+    if existing.deadline is not None:
+        missing = [item for item in missing if item != "deadline"]
+    existing.missing_information = missing
+
 
 def merge_tasks(tasks: Iterable[Task]) -> list[Task]:
     """Merge equivalent tasks (same client and action, case-insensitive)."""
@@ -47,6 +53,7 @@ def merge_tasks(tasks: Iterable[Task]) -> list[Task]:
             continue
 
         _merge_two(merged[key], task)
+
     return [merged[key] for key in order]
 
 
