@@ -53,7 +53,7 @@ class BuildPlanTests(unittest.TestCase):
                 "client": "Atelier Nova",
                 "action": "Tester",
                 "message": "Test",
-            }
+        }
 
         result = build_plan([make("R2"), make("R1"), make("R2")])
 
@@ -79,13 +79,13 @@ class BuildPlanTests(unittest.TestCase):
             "client": "Atelier Nova",
             "action": "Vérifier le formulaire",
             "message": "Test",
-        }
+    }
         request_messy = {
             "id": "REQ-2",
             "client": "  atelier   NOVA ",
             "action": " VÉRIFIER LE FORMULAIRE",
             "message": "Test",
-        }
+    }
 
         result = build_plan([request_clean, request_messy])
 
