@@ -73,6 +73,45 @@ class BuildPlanTests(unittest.TestCase):
         build_plan(payloads)
         self.assertEqual(payloads, before)
 
+    def test_requests_differing_by_case_and_spacing_are_merged(self) -> None:
+        request_clean = {
+            "id": "REQ-1",
+            "client": "Atelier Nova",
+            "action": "Vérifier le formulaire",
+            "message": "Test",
+        }
+        request_messy = {
+            "id": "REQ-2",
+            "client": "  atelier   NOVA ",
+            "action": " VÉRIFIER LE FORMULAIRE",
+            "message": "Test",
+        }
+
+        result = build_plan([request_clean, request_messy])
+
+        self.assertEqual(result["task_count"], 1)
+        self.assertEqual(result["tasks"][0]["source_ids"], ["REQ-1", "REQ-2"])
+
+    def test_merge_preserves_people_order_without_duplicates(self) -> None:
+        request_a = {
+            "id": "REQ-1",
+            "client": "Atelier Nova",
+            "action": "Tester",
+            "message": "Test",
+            "people": ["Alice", "Bob"],
+    }
+        request_b = {
+            "id": "REQ-2",
+            "client": "Atelier Nova",
+            "action": "Tester",
+            "message": "Test",
+            "people": ["Bob", "Charlie"],
+    }
+
+        result = build_plan([request_a, request_b])
+
+        self.assertEqual(result["tasks"][0]["people"], ["Alice", "Bob", "Charlie"])
+
 
 if __name__ == "__main__":
     unittest.main()

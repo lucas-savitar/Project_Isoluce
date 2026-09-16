@@ -62,6 +62,7 @@ tests/test_parser.py::test_blank_client_is_rejected
 
 
 # 2. parser.py — unique_preserve ne préservait pas l'ordre
+
 # Symptôme.
 La fonction censée dédupliquer une liste de noms « en conservant l'ordre d'apparition » (d'après sa docstring) les triait en fait par ordre alphabétique.
 
